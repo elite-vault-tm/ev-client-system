@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Elite Vault™ | Branded Client Page Setup Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #b8924a; --gold-light: #f0e4cc; --gold-dark: #9e7a38;
+    --navy: #13213a; --bg: #f9f6f0; --surface: #fdfaf5;
+    --text: #1a1611; --muted: #6b6257; --border: #d8cfc0; --divider: #e0d8cb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .header { background: var(--navy); text-align: center; padding: 2.5rem 1.5rem 2rem; border-bottom: 2px solid var(--gold); }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,5vw,3rem); font-weight: 400; color: #fff; letter-spacing: 0.06em; }
+  .header h1 span { color: var(--gold); }
+  .header p { color: rgba(255,255,255,0.6); font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.5rem; }
+  .intro-bar { background: var(--gold-light); border-bottom: 1px solid var(--gold); padding: 1.25rem 1.5rem; text-align: center; }
+  .intro-bar p { font-size: 0.9rem; color: var(--navy); line-height: 1.7; max-width: 680px; margin: 0 auto; }
+  .intro-bar strong { color: var(--gold-dark); }
+  .progress-bar { background: var(--surface); border-bottom: 1px solid var(--divider); padding: 1rem 1.5rem; position: sticky; top: 0; z-index: 100; }
+  .progress-steps { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; max-width: 720px; margin: 0 auto; }
+  .progress-step { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.3rem 0.75rem; border-radius: 20px; border: 1px solid var(--border); transition: all 200ms; }
+  .progress-step.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .progress-step.done { background: var(--gold-light); color: var(--gold-dark); border-color: var(--gold); }
+  .form-container { max-width: 720px; margin: 2.5rem auto 4rem; padding: 0 1.5rem; }
+  .section-block { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; }
+  .section-block h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; color: var(--navy); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-block h2 .num { background: var(--gold); color: #fff; font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 600; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section-note { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--divider); line-height: 1.6; }
+  .field { margin-bottom: 1.25rem; }
+  .field label { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); margin-bottom: 0.4rem; }
+  .field label .req { color: var(--gold); margin-left: 2px; }
+  .field input[type="text"], .field input[type="email"], .field input[type="tel"], .field input[type="number"], .field textarea, .field select {
+    width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 200ms, box-shadow 200ms;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,146,74,0.12); }
+  .field textarea { resize: vertical; min-height: 90px; }
+  .field .hint { font-size: 0.78rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.5; font-style: italic; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 520px) { .two-col { grid-template-columns: 1fr; } }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 620px) { .three-col { grid-template-columns: 1fr; } }
+  .sub-label { font-size: 0.8rem; font-weight: 600; color: var(--gold-dark); letter-spacing: 0.08em; text-transform: uppercase; margin: 1.25rem 0 0.5rem; padding-top: 1rem; border-top: 1px solid var(--divider); }
+  .radio-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .radio-option { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+  .radio-option input[type="radio"] { accent-color: var(--gold); width: 16px; height: 16px; }
+  .radio-option span { font-size: 0.9rem; color: var(--text); }
+  .conditional { display: none; margin-top: 1rem; padding: 1rem; background: var(--gold-light); border-radius: 8px; border: 1px solid var(--gold); }
+  .conditional.visible { display: block; }
+  .color-row { display: grid; grid-template-columns: 56px 1fr; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+  .color-row input[type="color"] { width: 56px; height: 48px; border: 1px solid var(--border); border-radius: 8px; padding: 4px; cursor: pointer; background: var(--bg); }
+  .color-row .color-info label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); display: block; margin-bottom: 0.3rem; }
+  .color-row .color-info span { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+  .color-preview { border-radius: 10px; padding: 1rem 1.25rem; margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; border: 1px solid var(--divider); background: #fff; }
+  .color-preview span { font-size: 0.8rem; color: var(--muted); }
+  .preview-swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.1); flex-shrink: 0; }
+  .preview-btn { padding: 0.5rem 1.25rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; border: 2px solid transparent; cursor: pointer; }
+  .formspree-box { background: #fff8ee; border: 1px solid var(--gold); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .formspree-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 0.5rem; }
+  .formspree-box ol { padding-left: 1.25rem; font-size: 0.88rem; color: var(--muted); line-height: 1.9; }
+  .formspree-box ol li strong { color: var(--navy); }
+  .formspree-box ol li a { color: var(--gold-dark); }
+  .trip-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+  .trip-tag { display: flex; align-items: center; gap: 0.3rem; }
+  .trip-tag input[type="checkbox"] { accent-color: var(--gold); width: 15px; height: 15px; }
+  .trip-tag label { font-size: 0.85rem; color: var(--text); cursor: pointer; }
+  .submit-wrap { text-align: center; margin-top: 2rem; }
+  .submit-btn { background: var(--navy); color: #fff; border: none; padding: 1rem 3rem; font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: background 200ms; }
+  .submit-btn:hover { background: #0e1a2f; }
+  .submit-note { font-size: 0.78rem; color: var(--muted); margin-top: 0.75rem; line-height: 1.6; }
+  .success-screen { display: none; text-align: center; padding: 3rem 1.5rem; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); }
+  .success-screen h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--navy); margin-bottom: 1rem; }
+  .success-screen p { color: var(--muted); line-height: 1.8; max-width: 500px; margin: 0 auto 0.75rem; }
+  .success-screen .big-note { background: var(--gold-light); border: 1px solid var(--gold); border-radius: 8px; padding: 1rem 1.5rem; margin: 1.5rem auto; max-width: 500px; font-size: 0.9rem; color: var(--navy); line-height: 1.7; }
+  .footer { text-align: center; padding: 1.5rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--divider); margin-top: 2rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>The Elite Vault<span>™</span></h1>
+  <p>Branded Client Page Setup Form</p>
+</div>
+
+<div class="intro-bar">
+  <p>Welcome and congratulations on your new branded client page! Complete every section below. This information goes <strong>directly into your personalized page</strong>. The more detail you provide, the better your page will represent your brand. Your page will be delivered within <strong>3 to 5 business days</strong> after this form AND your photo are received.</p>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-steps">
+    <div class="progress-step">1. Contact Info</div>
+    <div class="progress-step">2. About You</div>
+    <div class="progress-step">3. Services</div>
+    <div class="progress-step">4. Brand Colors</div>
+    <div class="progress-step">5. Service Fee</div>
+    <div class="progress-step">6. Preferences</div>
+    <div class="progress-step">7. Testimonials</div>
+    <div class="progress-step">8. Formspree</div>
+    <div class="progress-step">9. Social Media</div>
+    <div class="progress-step">10. Photo</div>
+  </div>
+</div>
+
+<div class="form-container">
+  <form id="setup-form">
+
+    <!-- ── SECTION 1: PERSONAL INFO ── -->
+    <div class="section-block">
+      <h2><span class="num">1</span> Your Personal Information</h2>
+      <p class="section-note">This appears on your page header, footer, contact section, and chat assistant. Use your real name and the contact info you want clients to reach you at.</p>
+      <div class="two-col">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" name="first_name" placeholder="Jane" required>
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" name="last_name" placeholder="Smith" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>Brand / Business Name <span class="req">*</span></label>
+        <input type="text" name="business_name" placeholder="Your Brand Name" required>
+        <p class="hint">This is the name that appears at the top of your page. Use your business name or a professional version of your name.</p>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="jane@email.com" required>
+          <p class="hint">This is where inquiry form leads are sent.</p>
+        </div>
+        <div class="field">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" name="phone" placeholder="407-555-1234" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>Show Phone Number Publicly on Your Page? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="show_phone" value="yes" required><span>Yes — show my phone number on the page</span></label>
+          <label class="radio-option"><input type="radio" name="show_phone" value="no"><span>No — email only</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Preferred Page Name <span class="req">*</span></label>
+        <input type="text" name="subdomain" placeholder="jane" required>
+        <p class="hint">This helps create your page URL or page name. Lowercase only, no spaces, no special characters. Examples: jane, janesmith, yourbrandname</p>
+      </div>
+      <div class="field">
+        <label>Brand Style — Logo or Text? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="brand_style" value="text" required><span>Text only — just my business name in the header</span></label>
+          <label class="radio-option"><input type="radio" name="brand_style" value="logo"><span>I have a logo file I will email</span></label>
+        </div>
+        <p class="hint">Most people start with text. You can always upgrade to a logo later.</p>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: ABOUT YOU ── -->
+    <div class="section-block">
+      <h2><span class="num">2</span> About You</h2>
+      <p class="section-note">This is what visitors read when they land on your page. Write in your own voice. Warm, personal, and professional. Do not worry about making it perfect — just write how you would talk to a client.</p>
+      <div class="field">
+        <label>Your One-Line Introduction <span class="req">*</span></label>
+        <input type="text" name="intro_line" placeholder="Hi, I'm Jane, and I've been in the travel industry since 2015." required>
+        <p class="hint">The first line visitors see in your about section. Personal and confident.</p>
+      </div>
+      <div class="field">
+        <label>Your Bio — Paragraph 1 <span class="req">*</span></label>
+        <textarea name="bio_p1" placeholder="I help clients plan travel with care and a personal touch. From cruises to all-inclusive getaways to group trips, every inquiry gets my full attention from start to finish." required></textarea>
+        <p class="hint">2 to 3 sentences about your background, your approach, and what you specialize in.</p>
+      </div>
+      <div class="field">
+        <label>Your Bio — Paragraph 2 <span class="req">*</span></label>
+        <textarea name="bio_p2" placeholder="You don't need to arrive with every detail mapped out. A destination idea or the kind of experience you want is enough for us to begin." required></textarea>
+        <p class="hint">1 to 2 sentences inviting the visitor to reach out. Make it feel easy and low pressure.</p>
+      </div>
+      <div class="field">
+        <label>Your Turnaround Time <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="turnaround" value="24 hours" required><span>24 hours</span></label>
+          <label class="radio-option"><input type="radio" name="turnaround" value="48 hours"><span>48 hours</span></label>
+          <label class="radio-option"><input type="radio" name="turnaround" value="72 hours"><span>72 hours</span></label>
+          <label class="radio-option"><input type="radio" name="turnaround" value="within 2 business days"><span>Within 2 business days</span></label>
+          <label class="radio-option"><input type="radio" name="turnaround" value="custom"><span>Other</span></label>
+        </div>
+        <div class="conditional" id="turnaround-custom">
+          <div class="field">
+            <label>Enter your custom turnaround time</label>
+            <input type="text" name="turnaround_custom" placeholder="Example: within 3 business days">
+          </div>
+        </div>
+        <p class="hint">This appears on your page and in your form confirmation message. Only promise what you can consistently deliver.</p>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: SPECIALTIES ── -->
+    <div class="section-block">
+      <h2><span class="num">3</span> Your Services & Specialties</h2>
+      <p class="section-note">These appear in the "What I Do Best" section of your page and help visitors understand what you offer. Be specific — this is how clients know they are in the right place.</p>
+
+      <div class="field">
+        <label>Service Banner Line <span class="req">*</span></label>
+        <input type="text" name="specialty_banner" placeholder="Personalized service for clients who want a clear, guided experience" required>
+        <p class="hint">One sentence shown near the top of your page. Summarizes what you do in plain language.</p>
+      </div>
+
+      <div class="sub-label">Specialty Group 1</div>
+      <div class="field">
+        <label>Group 1 Title <span class="req">*</span></label>
+        <input type="text" name="specialty_group1_title" placeholder="Cruise Experiences" required>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>Item 1 <span class="req">*</span></label><input type="text" name="s1_item1" placeholder="Girls trip cruises" required></div>
+        <div class="field"><label>Item 2 <span class="req">*</span></label><input type="text" name="s1_item2" placeholder="Group cruise experiences" required></div>
+        <div class="field"><label>Item 3</label><input type="text" name="s1_item3" placeholder="Solo cruise getaways"></div>
+        <div class="field"><label>Item 4</label><input type="text" name="s1_item4" placeholder="Graduation celebrations"></div>
+        <div class="field"><label>Item 5</label><input type="text" name="s1_item5" placeholder="Family reunion cruises"></div>
+      </div>
+
+      <div class="sub-label">Specialty Group 2</div>
+      <div class="field">
+        <label>Group 2 Title <span class="req">*</span></label>
+        <input type="text" name="specialty_group2_title" placeholder="All-Inclusive Getaways" required>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>Item 1 <span class="req">*</span></label><input type="text" name="s2_item1" placeholder="Couples retreats" required></div>
+        <div class="field"><label>Item 2 <span class="req">*</span></label><input type="text" name="s2_item2" placeholder="Birthday trips" required></div>
+        <div class="field"><label>Item 3</label><input type="text" name="s2_item3" placeholder="Girls trip packages"></div>
+        <div class="field"><label>Item 4</label><input type="text" name="s2_item4" placeholder="Family vacations"></div>
+        <div class="field"><label>Item 5</label><input type="text" name="s2_item5" placeholder="Solo getaways"></div>
+      </div>
+
+      <div class="sub-label">Inquiry Form Options</div>
+      <p class="hint" style="margin-bottom: 0.75rem;">Check all options you want to appear in the dropdown on your inquiry form. Add custom ones in the box below.</p>
+      <div class="trip-tags">
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Solo Experience"><label>Solo Experience</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Beach Getaway"><label>Beach Getaway</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Family Vacation"><label>Family Vacation</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Birthday Bash"><label>Birthday Bash</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="All-Inclusive"><label>All-Inclusive</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Cruise"><label>Cruise</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Girls Trip"><label>Girls Trip</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Graduation Celebration"><label>Graduation Celebration</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Honeymoon"><label>Honeymoon</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Destination Wedding"><label>Destination Wedding</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Group Travel"><label>Group Travel</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Luxury Travel"><label>Luxury Travel</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Europe Trip"><label>Europe Trip</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Safari"><label>Safari</label></label>
+        <label class="trip-tag"><input type="checkbox" name="trip_types" value="Other"><label>Other</label></label>
+      </div>
+      <div class="field" style="margin-top: 1rem;">
+        <label>Any Custom Options Not Listed Above?</label>
+        <input type="text" name="trip_types_custom" placeholder="VIP days, consultations, group experiences, specialty services, etc. Separate with commas.">
+      </div>
+    </div>
+
+    <!-- ── SECTION 4: BRAND COLORS ── -->
+    <div class="section-block">
+      <h2><span class="num">4</span> Your Brand Colors</h2>
+      <p class="section-note">Choose the colors that represent your brand. Pick colors you already use, or choose something that feels like you. See the live preview below as you pick.</p>
+
+      <div class="color-row">
+        <input type="color" name="color_primary" id="color_primary" value="#13213a">
+        <div class="color-info">
+          <label>Primary Color <span class="req">*</span></label>
+          <span>Used for your header, dark sections, buttons, and chat widget. Default is navy.</span>
+        </div>
+      </div>
+      <div class="color-row">
+        <input type="color" name="color_accent" id="color_accent" value="#b8924a">
+        <div class="color-info">
+          <label>Accent Color <span class="req">*</span></label>
+          <span>Used for highlights, borders, decorative lines, and the chat launcher. Default is gold.</span>
+        </div>
+      </div>
+      <div class="color-row">
+        <input type="color" name="color_bg" id="color_bg" value="#f9f6f0">
+        <div class="color-info">
+          <label>Background Color</label>
+          <span>The main page background. Default is warm cream. White #ffffff also works beautifully.</span>
+        </div>
+      </div>
+
+      <div class="color-preview" id="color-preview">
+        <span>Live preview:</span>
+        <div class="preview-swatch" id="swatch-primary" title="Primary"></div>
+        <div class="preview-swatch" id="swatch-accent" title="Accent"></div>
+        <div class="preview-swatch" id="swatch-bg" title="Background" style="border: 1px solid #ccc;"></div>
+        <button class="preview-btn" id="preview-btn" type="button">Button Sample</button>
+      </div>
+      <p class="hint" style="margin-top: 0.75rem;">Not sure what to pick? Think about your social media branding or logo colors. You can request a color update after launch at no extra charge.</p>
+    </div>
+
+    <!-- ── SECTION 5: PLANNING FEE ── -->
+    <div class="section-block">
+      <h2><span class="num">5</span> Service Fee</h2>
+      <p class="section-note">Do you charge a service, planning, or consultation fee? This section is completely optional. If you do not charge one, the fee section will be removed from your page entirely.</p>
+
+      <div class="field">
+        <label>Do you charge a service, planning, or consultation fee? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="planning_fee" value="yes" required><span>Yes, I charge a fee</span></label>
+          <label class="radio-option"><input type="radio" name="planning_fee" value="no"><span>No fee — remove this section from my page</span></label>
+        </div>
+      </div>
+
+      <div class="conditional" id="fee-details">
+        <div class="field">
+          <label>Fee Amount <span class="req">*</span></label>
+          <input type="text" name="fee_amount" placeholder="$75">
+        </div>
+        <div class="field">
+          <label>Is the fee applied toward the booking? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="fee_applied" value="yes"><span>Yes — applied toward the booking</span></label>
+            <label class="radio-option"><input type="radio" name="fee_applied" value="no"><span>No — it is a standalone fee</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Is the fee refundable? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="fee_refundable" value="no"><span>Non-refundable</span></label>
+            <label class="radio-option"><input type="radio" name="fee_refundable" value="yes"><span>Refundable</span></label>
+            <label class="radio-option"><input type="radio" name="fee_refundable" value="partial"><span>Partially refundable</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Describe your fee in your own words</label>
+          <textarea name="fee_description" placeholder="After I review what you've shared, I'll send you a starting point with ideas, options, and pricing ranges. If you'd like me to fully plan your trip, there is a $75 planning fee. This covers the time and care that goes into building out your details — and it is applied toward your booking when you move forward."></textarea>
+          <p class="hint">This appears as a paragraph on your page. Write it in your own voice so it sounds like you.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 6: PAGE PREFERENCES ── -->
+    <div class="section-block">
+      <h2><span class="num">6</span> Page Preferences</h2>
+      <p class="section-note">A few final customizations for how your page looks and behaves.</p>
+
+      <div class="field">
+        <label>Page Title (shows in browser tab) <span class="req">*</span></label>
+        <input type="text" name="page_title" placeholder="Your Brand Name | Travel Planning" required>
+        <p class="hint">Keep it under 60 characters. Include your business name and a short description.</p>
+      </div>
+      <div class="field">
+        <label>Page Meta Description (used by Google) <span class="req">*</span></label>
+        <textarea name="meta_description" placeholder="Your Brand Name offers personalized travel planning for cruises, all-inclusive getaways, and group trips. Share your dream and let us handle the rest." required style="min-height: 70px;"></textarea>
+        <p class="hint">1 to 2 sentences. Under 160 characters. Describe what you offer and who you help.</p>
+      </div>
+      <div class="field">
+        <label>Contact Hours (optional)</label>
+        <input type="text" name="contact_hours" placeholder="Monday to Friday, 9am to 6pm EST">
+        <p class="hint">Leave blank if you prefer not to show hours. Only add if you want clients to know when to expect a response.</p>
+      </div>
+      <div class="field">
+        <label>Chat Assistant Tone <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="chat_tone" value="warm and friendly" required><span>Warm and friendly</span></label>
+          <label class="radio-option"><input type="radio" name="chat_tone" value="professional and polished"><span>Professional and polished</span></label>
+          <label class="radio-option"><input type="radio" name="chat_tone" value="fun and energetic"><span>Fun and energetic</span></label>
+          <label class="radio-option"><input type="radio" name="chat_tone" value="luxury and elevated"><span>Luxury and elevated</span></label>
+        </div>
+        <p class="hint">This sets how your AI chat assistant talks to visitors on your page.</p>
+      </div>
+      <div class="field">
+        <label>Chat Assistant Opening Message</label>
+        <input type="text" name="chat_opening" placeholder="Hi! I'm here to help you start planning your dream trip. What kind of travel experience are you looking for?">
+        <p class="hint">The first message visitors see when they open your chat. Leave blank to use the default above.</p>
+      </div>
+    </div>
+
+    <!-- ── SECTION 7: TESTIMONIALS ── -->
+    <div class="section-block">
+      <h2><span class="num">7</span> Client Testimonials</h2>
+      <p class="section-note">Add up to 3 real client quotes. If you are just getting started and don't have reviews yet, type "Coming soon" in the fields and we will update your page once you collect them.</p>
+
+      <div class="sub-label">Testimonial 1 <span class="req">*</span></div>
+      <div class="field"><label>Short Quote Headline <span class="req">*</span></label><input type="text" name="t1_quote" placeholder='"She made our trip feel effortless."' required></div>
+      <div class="field"><label>Full Review <span class="req">*</span></label><textarea name="t1_body" placeholder="I told her the vibe we wanted and she handled everything from there. The resort was perfect." required></textarea></div>
+      <div class="field"><label>Client Name and Trip Type <span class="req">*</span></label><input type="text" name="t1_name" placeholder="T. Johnson, Girls Trip" required></div>
+
+      <div class="sub-label">Testimonial 2</div>
+      <div class="field"><label>Short Quote Headline</label><input type="text" name="t2_quote" placeholder='"My birthday trip turned out better than I imagined."'></div>
+      <div class="field"><label>Full Review</label><textarea name="t2_body" placeholder="She gave me options and helped me narrow it down. Everything was smooth."></textarea></div>
+      <div class="field"><label>Client Name and Trip Type</label><input type="text" name="t2_name" placeholder="M. Davis, Birthday Trip"></div>
+
+      <div class="sub-label">Testimonial 3</div>
+      <div class="field"><label>Short Quote Headline</label><input type="text" name="t3_quote" placeholder='"I felt taken care of the entire time."'></div>
+      <div class="field"><label>Full Review</label><textarea name="t3_body" placeholder="As a solo traveler I had a lot of questions and she made me feel comfortable from the start."></textarea></div>
+      <div class="field"><label>Client Name and Trip Type</label><input type="text" name="t3_name" placeholder="A. Williams, Solo Trip"></div>
+    </div>
+
+    <!-- ── SECTION 8: FORMSPREE ── -->
+    <div class="section-block">
+      <h2><span class="num">8</span> Your Formspree ID</h2>
+      <p class="section-note">Formspree sends your inquiry form submissions directly to your email. You need a free account before your page can go live. This takes 5 minutes.</p>
+      <div class="formspree-box">
+        <h3>How to get your Formspree ID:</h3>
+        <ol>
+          <li>Go to <strong><a href="https://formspree.io" target="_blank">formspree.io</a></strong> and create a free account</li>
+          <li>Click <strong>New Form</strong> — give it any name (example: My Client Inquiries)</li>
+          <li>Enter the <strong>email address</strong> where you want leads sent</li>
+          <li>Click <strong>Create Form</strong></li>
+          <li>Copy your <strong>Form ID</strong> — it looks like: <strong>xabcdefg</strong></li>
+          <li>Paste it below</li>
+        </ol>
+      </div>
+      <div class="field">
+        <label>Your Formspree Form ID <span class="req">*</span></label>
+        <input type="text" name="formspree_id" placeholder="xabcdefg" required>
+        <p class="hint">Just the ID — not the full URL. It starts with the letter x and is 8 characters long.</p>
+      </div>
+    </div>
+
+    <!-- ── SECTION 9: SOCIAL MEDIA ── -->
+    <div class="section-block">
+      <h2><span class="num">9</span> Social Media Links</h2>
+      <p class="section-note">Optional. If you want social media links shown on your page, add them below. Leave any blank that you do not want displayed.</p>
+      <div class="two-col">
+        <div class="field">
+          <label>Facebook Page URL</label>
+          <input type="text" name="social_facebook" placeholder="https://facebook.com/yourpage">
+        </div>
+        <div class="field">
+          <label>Instagram URL</label>
+          <input type="text" name="social_instagram" placeholder="https://instagram.com/yourhandle">
+        </div>
+        <div class="field">
+          <label>TikTok URL</label>
+          <input type="text" name="social_tiktok" placeholder="https://tiktok.com/@yourhandle">
+        </div>
+        <div class="field">
+          <label>Other Link (YouTube, LinkedIn, etc.)</label>
+          <input type="text" name="social_other" placeholder="https://...">
+          <p class="hint">Label it in the next field.</p>
+        </div>
+      </div>
+      <div class="field">
+        <label>Label for Other Link</label>
+        <input type="text" name="social_other_label" placeholder="YouTube, LinkedIn, website, etc.">
+      </div>
+    </div>
+
+    <!-- ── SECTION 10: PHOTO ── -->
+    <div class="section-block">
+      <h2><span class="num">10</span> Your Photo</h2>
+      <p class="section-note">Your photo appears at the top of your page as the hero banner AND as the chat launcher button in the bottom corner of your page. Use a professional headshot or a branded lifestyle photo. Clear face, good lighting, confident energy.</p>
+      <div class="field">
+        <label>Photo File Name <span class="req">*</span></label>
+        <input type="text" name="photo_filename" placeholder="jane-smith.jpg" required>
+        <p class="hint">Tell us the exact filename you will email. Example: jane-smith.jpg or janetravel.png. Accepted formats: JPG, PNG, WEBP.</p>
+      </div>
+      <div style="background: var(--gold-light); border: 1px solid var(--gold); border-radius: 8px; padding: 1rem 1.25rem; margin-top: 0.5rem;">
+        <p style="font-size: 0.88rem; color: var(--navy); line-height: 1.7;">
+          <strong>After submitting this form:</strong> Please email your photo to
+          <strong>sabrinanicholsjohnson@gmail.com</strong> with the subject line:<br>
+          <strong>YOUR NAME — Website Photo</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ── SUBMIT ── -->
+    <div class="submit-wrap">
+      <button type="submit" class="submit-btn">Submit My Setup Info</button>
+      <p class="submit-note">After submitting, email your photo to sabrinanicholsjohnson@gmail.com<br>Subject line: YOUR NAME — Website Photo<br>Your branded client page will be delivered within <strong>3 to 5 business days</strong> once both are received.</p>
+    </div>
+
+    <div class="success-screen" id="success-screen">
+      <h2>You are all set! 👑</h2>
+      <p>Your setup information has been received.</p>
+      <div class="big-note">
+        <strong>One more step:</strong><br>
+        Email your photo to <strong>sabrinanicholsjohnson@gmail.com</strong><br>
+        Subject line: <strong>YOUR NAME — Website Photo</strong><br><br>
+        Your branded client page will be live and in your inbox within <strong>3 to 5 business days</strong> once your photo is received.
+      </div>
+      <p>Questions? Email sabrinanicholsjohnson@gmail.com</p>
+    </div>
+
+  </form>
+</div>
+
+<div class="footer">
+  The Elite Vault™ | Branded Client Page Setup Form | Built by Sabrina Nichols Johnson<br>
+  <a href="https://elite-vault-tm.github.io/ev-legal/terms.html">Terms</a> |
+  <a href="https://elite-vault-tm.github.io/ev-legal/privacy.html">Privacy</a> |
+  <a href="https://elite-vault-tm.github.io/ev-legal/disclaimer.html">Disclaimer</a>
+</div>
+
+<script>
+  // Color preview
+  const primary = document.getElementById('color_primary');
+  const accent = document.getElementById('color_accent');
+  const bg = document.getElementById('color_bg');
+  function updatePreview() {
+    document.getElementById('swatch-primary').style.background = primary.value;
+    document.getElementById('swatch-accent').style.background = accent.value;
+    document.getElementById('swatch-bg').style.background = bg.value;
+    const btn = document.getElementById('preview-btn');
+    btn.style.background = primary.value;
+    btn.style.color = '#fff';
+    btn.style.borderColor = accent.value;
+  }
+  primary.addEventListener('input', updatePreview);
+  accent.addEventListener('input', updatePreview);
+  bg.addEventListener('input', updatePreview);
+  updatePreview();
+
+  // Planning fee conditional
+  document.querySelectorAll('input[name="planning_fee"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('fee-details').classList.toggle('visible', r.value === 'yes' && r.checked);
+    });
+  });
+
+  // Turnaround custom conditional
+  document.querySelectorAll('input[name="turnaround"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('turnaround-custom').classList.toggle('visible', r.value === 'custom' && r.checked);
+    });
+  });
+
+  // Form submit
+  document.getElementById('setup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
