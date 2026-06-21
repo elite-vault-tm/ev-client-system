@@ -117,42 +117,52 @@
   }
   .skip-link:focus { top: 0; }
 
-  /* ===== HEADER ===== */
-  .site-header {
-    background: var(--navy);
-    text-align: center;
-    padding: clamp(1.5rem, 4vw, 2.5rem) 1.5rem clamp(1.25rem, 3vw, 2rem);
-    border-bottom: 3px solid var(--gold);
-    position: relative;
-    overflow: hidden;
-  }
-  .site-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(184,146,74,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .site-header h1 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.8rem, 6vw, 3.5rem);
-    font-weight: 400;
-    color: #fff;
-    letter-spacing: 0.06em;
-    position: relative;
-  }
-  .site-header h1 span { color: var(--gold); }
-  .site-header .tagline {
-    color: rgba(255,255,255,0.6);
-    font-size: clamp(0.65rem, 1.8vw, 0.78rem);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-top: 0.4rem;
-    position: relative;
-  }
+ /* ===== HEADER ===== */
+.site-header {
+  background: var(--navy);
+  text-align: center;
+  padding: clamp(1.5rem, 4vw, 2.5rem) 1.5rem clamp(1.25rem, 3vw, 2rem);
+  border-bottom: 3px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+}
 
-  /* ===== CONTAINER ===== */
-  .container { max-width: 860px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 1.5rem); }
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(184,146,74,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.site-header h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: 0.06em;
+  position: relative;
+  margin: 0 auto;
+}
+
+.site-header .tagline {
+  color: rgba(255,255,255,0.6);
+  font-size: clamp(0.65rem, 1.8vw, 0.78rem);
+  letter-spacing: 0.12em;
+  text-indent: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+  position: relative;
+  text-align: center;
+  display: inline-block;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 1.5rem);
+}
 
   /* ===== HERO ===== */
   .hero {
@@ -524,8 +534,8 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- HEADER -->
-<header class="site-header" role="banner">
-  <h1>The Elite Vault<span aria-hidden="true">&nbsp;</span><span>&#8203;</span><!-- No TM per brand instructions --></h1>
+<header class="site-header">
+  <h1>The Elite Vault</h1>
   <p class="tagline">Branded Client Experience System</p>
 </header>
 
